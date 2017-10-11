@@ -111,8 +111,29 @@ def banking():
 	global moneyInPocket
 	global moneyInBank
 	costToDeposit = 1.20
+	showStats()
 	nL()
-	print('banking')
+	print("What would you like to do?")
+	while True:
+		userChoice=int(input('[1]Deposit, [2]Withdraw, [3]Return to main menu [1-3]:'))
+		if (userChoice == 1 or userChoice == 2 or userChoice == 3):
+			break
+	if (userChoice == 1):
+		nL()
+		while True:
+			userChoice=int(input('How much would you like to deposit?: '))
+			if (userChoice >= 0 and userChoice <= moneyInPocket):
+				moneyInBank = userChoice + moneyInBank
+				moneyInPocket -= userChoice
+				break
+	elif (userChoice == 2):
+		nL()
+		while True:
+			userChoice=int(input('How much would you like to withdraw?: '))
+			if (userChoice >= 0 and userChoice <= moneyInBank):
+				moneyInPocket = userChoice + moneyInPocket
+				moneyInBank -= userChoice
+				break
 	pressEnterToContinue()
 	mainGameChoice()
 	
