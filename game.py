@@ -1,3 +1,4 @@
+#test
 #The goal is to double the money you borrowed and make as much as possible within 5 days. Every action will take away hours left until you're forced to sleep.
 import sys
 import win32com.client as wincl
