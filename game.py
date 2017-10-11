@@ -110,7 +110,7 @@ def banking():
 #Can Withdraw
 	global moneyInPocket
 	global moneyInBank
-	costToDeposit = 1.20
+	costToDeposit = 0.20
 	showStats()
 	nL()
 	print("What would you like to do?")
@@ -121,11 +121,17 @@ def banking():
 	if (userChoice == 1):
 		nL()
 		while True:
-			userChoice=int(input('How much would you like to deposit?: '))
-			if (userChoice >= 0 and userChoice <= moneyInPocket):
-				moneyInBank = userChoice + moneyInBank
-				moneyInPocket -= userChoice
+			toDeposit=int(input('How much would you like to deposit?: '))
+			if (toDeposit >= 0 and toDeposit <= moneyInPocket):
 				break
+		nL()
+		cost = int(toDeposit * costToDeposit)
+		print('This will cost you $[',cost,']')
+		userChoice=str(input('Are you sure you sure? [Y,N]: '))
+		if (userChoice == 'y' or userChoice == 'Y' or userChoice == 'yes' or userChoice == 'Yes' or userChoice == 'YES'):
+			moneyInBank = toDeposit - cost + moneyInBank
+			moneyInPocket -= toDeposit
+
 	elif (userChoice == 2):
 		nL()
 		while True:
