@@ -2,6 +2,7 @@
 import sys
 import win32com.client as wincl
 speak = wincl.Dispatch("SAPI.SpVoice")
+from random import randint
 
 playerHP = 100
 moneyInBank = 0
@@ -11,7 +12,18 @@ moneyOwed = 0
 hoursLeft = 18
 daysLeft = 5
 workedToday = False
+enemyHP = 0
 
+def moneyStolen():
+	global moneyInPocket
+	nL()
+	print('While you were sleeping, a burglar stole all the money from your pockets...')
+	moneyInPocket = 0
+	
+def flipACoin():
+	coin = randint(0,1)
+	return coin	
+	
 def pressEnterToContinue():
 	nL()
 	str(input('Press Enter to continue...'))
@@ -30,9 +42,9 @@ def youWon():
 	str(input('Press enter to exit game...'))
 	return
 
-def gameOver():
+def youLost():
 	nL()
-	print('You lost')
+	print('You lost... :(')
 	pressEnterToContinue()
 	return
 	
@@ -40,16 +52,55 @@ def fight():
 #Can only fight as long as you have HP
 	global moneyInPocket
 	global moneyOwed
-	from random import randint
+	global playerHP
+	global enemyHP
 	enemyHP = randint(20,80)
-	moneyOnTheTable = int((enemyHP/10))
+	moneyOnTheTable = int((enemyHP/2))
+	def getPower():
+		power = randint(1,20)
+		return power
+	def reportHP():
+		print('Your HP: [',playerHP,'] VS Enemy HP: [',enemyHP,']')
+	def hitEnemy():
+		global enemyHP
+		hit = getPower()
+		reportHP()
+		print('You hit your enemy for [',hit,'] damage!')
+		enemyHP -= hit
+		pressEnterToContinue()
+	def hitPlayer():
+		global playerHP
+		hit = getPower()
+		reportHP()
+		print('You got hit for [',hit,'] damage!')
+		playerHP -= hit
+		pressEnterToContinue()
 	showStats()
 	nL()
 	print('This fight will be worth [$',moneyOnTheTable,'] You currently have [$',moneyInPocket,'].')
 	if moneyOnTheTable <= moneyInPocket:
 		userChoice=str(input('Are you sure you want to bet that amount? [Y,N]: '))
+		nL()
 		if (userChoice == 'y' or userChoice == 'Y'):
-			moneyInPocket -= moneyOnTheTable
+			while True:
+				if flipACoin() == 0:hitEnemy()
+				else:hitPlayer()
+				if enemyHP <= 0:
+					enemyHP = 0
+					nL()
+					reportHP()
+					print('Enemy defeated. You won the battle!')
+					moneyInPocket += moneyOnTheTable
+					break
+				elif playerHP <=0:
+					playerHP = 0
+					nL()
+					reportHP()
+					print('You have been defeated. You must rest to regain your HP...')
+					moneyInPocket -= moneyOnTheTable
+					break
+				nL()
+				
 	else:
 		print("Sorry bud, you don't have enough money for this fight. Go get a job!")
 		pressEnterToContinue()
@@ -59,6 +110,8 @@ def gamble():
 #Can gamble as much as you want
 	nL()
 	print('gamble')
+	pressEnterToContinue()
+	mainGameChoice()
 	
 def workPartTime():
 #Can only work once a day
@@ -94,6 +147,8 @@ def sleep():
 		print('You go to sleep... You wake up the next day feeling replenished.')
 		playerHP = 100
 		daysLeft -= 1
+		if flipACoin() == 1:
+			moneyStolen()
 		pressEnterToContinue()
 		mainGameChoice()
 	elif (daysLeft == 0):
@@ -102,7 +157,7 @@ def sleep():
 		else: 
 			nL()
 			userChoice=str(input('You don\'t have enough money to win the game. Are you sure you want to finish the game now? [Y,N]: '))
-			if (userChoice == 'y' or userChoice == 'Y' or userChoice == 'yes' or userChoice == 'Yes' or userChoice == 'YES'):gameOver()
+			if (userChoice == 'y' or userChoice == 'Y' or userChoice == 'yes' or userChoice == 'Yes' or userChoice == 'YES'):youLost()
 			else:mainGameChoice()
 	
 def banking():
