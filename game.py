@@ -115,7 +115,26 @@ def fight():
 def gamble():
 #Can gamble as much as you want
 	nL()
-	print('gamble')
+	print("What would you like to play?")
+	while True:
+		userChoice=int(input('[1]Under and Over 7: '))
+		if (userChoice == 1):
+			break
+	if (userChoice == 1):
+		nL()
+		print("Under and Over 7")
+		nL()
+		while True:
+			userChoice=int(input('[1]Play, [2]How to play [1-2]: '))
+			if (userChoice == 1 or userChoice == 2):
+				break
+		if (userChoice == 1):
+			nL()
+			print('Playing')
+		if (userChoice == 2):
+			nL()
+			print('How to play:\nDescription: Under and Over 7 is a very simple dice game. It is usually played with two wooden dice. The principle of Under and Over 7 is to guess whether the value of the dice is lower/higher than or equal to Seven. These are the only bets in the game.\n\nThe bets in Under and Over 7 that the value of the dice will be lower or higher than seven are paid out as even that is 1:1. The bets are losing if the value is opposite or seven. It is also possible to place bets straight on the Seven. Then the win is usually paid out in the ratio of 4:1')
+		
 	pressEnterToContinue()
 	mainGameChoice()
 	
