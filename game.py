@@ -1,6 +1,6 @@
 #Items to include in game: 
 #1. Reason to borrow the money in the first place (ie: expenses during each day)
-#2. You need to work on minimum wage, that's just ridiculous!
+#2. FIXED You need to work on minimum wage, that's just ridiculous!
 #3. It should be possible (although you can make it very difficult if you want) to win the game without doing morally questionable things such as gambling or fighting.
 #4. That bank is criminal, you should have just an initial fee to make a bank account or make it just like a 1% withdraw fee on the amount you're withdrawing or something.
 #5. You have to give reasons for things, even if it's the most basic. There's no immediate reason to deposit money in the bank, you should at least say you're sleeping in an alleyway or whatever, so people can guess they can lose their funds.
@@ -19,6 +19,7 @@ hoursLeft = 18
 daysLeft = 5
 workedToday = False
 enemyHP = 0
+minimumWage = 15
 
 def moneyStolen():
 	global moneyInPocket
@@ -144,10 +145,10 @@ def workPartTime():
 	global workedToday
 	from random import randint
 	hours = randint(2,7)
-	wage = 6
+	global minimumWage
 	if workedToday == False:
 		nL()
-		gained = (hours * wage)
+		gained = (hours * minimumWage)
 		moneyInPocket += gained
 		print('You take a [',hours,'] hour shift at McDonalds and gained $[',gained,']')
 		workedToday = True
